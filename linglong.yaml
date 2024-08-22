@@ -1,0 +1,38 @@
+version: "1"
+
+package:
+  id: io.github.xmage-launcher-qt
+  name: xmage-launcher-qt
+  version: 0.0.0.1
+  kind: app
+  description: |
+    An alternate launcher for the XMage project written in C++ using the Qt GUI framework.
+
+command:
+  - /opt/apps/io.github.xmage-launcher-qt/files/bin/xmage-launcher-qt
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/weirddan455/xmage-launcher-qt.git
+    version: master
+    commit: bfe83d5d1932346a331974dd953153b478904276
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libz/libzip/libzip-dev_1.5.1-4_amd64.deb
+    digest: b73e56fb64c6a50389e89b353a121275dd21db201506f349d850645b1a0b727a
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libz/libzip/libzip4_1.5.1-4_amd64.deb
+    digest: 22a93165d9f8e36d46e750ab1832a5a9e02076e106d0d5cb798e7081747d642c
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1n-0+deb10u6_amd64.deb
+    digest: 9ee380d4d7b9a9848bd7497bbe03c91f65bd25ae4ad12b5466bed60a06029727
+
+build: |
+  bash ./install_dep linglong/sources $PREFIX
+  cd /project/linglong/sources/xmage-launcher-qt.git
+  git apply ../../../0001-install.patch
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install

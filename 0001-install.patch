@@ -1,0 +1,62 @@
+From 00f422970e1d08a608f6b2309db2bd88eeedce66 Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Mon, 19 Aug 2024 14:21:07 +0800
+Subject: [PATCH] install
+
+---
+ xmage-launcher-qt.desktop | 11 +++++++++++
+ xmage-launcher-qt.pro     | 10 ++++++++--
+ 2 files changed, 19 insertions(+), 2 deletions(-)
+ create mode 100644 xmage-launcher-qt.desktop
+
+diff --git a/xmage-launcher-qt.desktop b/xmage-launcher-qt.desktop
+new file mode 100644
+index 0000000..d7b7815
+--- /dev/null
++++ b/xmage-launcher-qt.desktop
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Categories=Accessibility;Qt;Utility;
++Exec=xmage-launcher-qt
++Name=xmage-launcher-qt
++Name[zh_CN]=xmage-launcher-qt
++Icon=icon-mage
++StartupNotify=false
++Terminal=false
++Type=Application
++GenericName=xmage-launcher-qt
++Version=1.0
+\ No newline at end of file
+diff --git a/xmage-launcher-qt.pro b/xmage-launcher-qt.pro
+index 7bffbfd..2dc6b90 100644
+--- a/xmage-launcher-qt.pro
++++ b/xmage-launcher-qt.pro
+@@ -7,7 +7,7 @@ CONFIG += c++11
+ # You can make your code fail to compile if it uses deprecated APIs.
+ # In order to do so, uncomment the following line.
+ #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+-
++INCLUDEPATH += $$PREFIX/include
+ SOURCES += \
+     src/aboutdialog.cpp \
+     src/downloadmanager.cpp \
+@@ -37,9 +37,15 @@ FORMS += \
+ 
+ # Default rules for deployment.
+ qnx: target.path = /tmp/$${TARGET}/bin
+-else: unix:!android: target.path = /opt/$${TARGET}/bin
++else: unix:!android: #target.path = /opt/$${TARGET}/bin
+ !isEmpty(target.path): INSTALLS += target
++target.path = $$PREFIX/bin
++desktop.files = xmage-launcher-qt.desktop
++desktop.path = $$PREFIX/share/applications/
++icons.path = $$PREFIX/share/icons
++icons.files = resources/icon-mage.png
+ 
++INSTALLS += target desktop icons
+ RESOURCES += \
+     resources/resources.qrc
+ 
+-- 
+2.43.4
+
